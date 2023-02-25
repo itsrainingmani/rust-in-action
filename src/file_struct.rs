@@ -41,7 +41,15 @@ pub struct File {
 }
 
 impl File {
-    /// New files are assumed to be empty, but a name is required
+    /// Creates a new, empty `File`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use ria::file_struct::File;
+    ///
+    /// let f = File::new("f1.txt");
+    /// ```
     pub fn new(name: &str) -> File {
         File {
             name: String::from(name),
