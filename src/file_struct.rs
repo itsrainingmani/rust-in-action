@@ -1,5 +1,8 @@
-#![allow(unused_variables)]
+#![allow(unused_variables)] // Crate level attributes
 #![allow(dead_code)]
+use std::fmt;
+use std::fmt::Display;
+
 // type File = String;
 use rand::prelude::*;
 
@@ -7,10 +10,38 @@ fn one_in(denom: u32) -> bool {
     thread_rng().gen_ratio(1, denom)
 }
 
+// Traits enable the compiler and others to know that multiple types are attempting to perform the same task. Allowing multiple types to implement the a Read trait enables code re-use and allows the Rust compiler to perform its zero cost abstraction wizardry
+trait Read {
+    fn read(self: &Self, save_to: &mut Vec<u8>) -> Result<usize, String>;
+}
+
+impl Read for File {
+    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
+        if self.state != FileState::Open {
+            return Err(String::from("File must be open for reading"));
+        }
+        let mut tmp = self.data.clone();
+        let read_length = tmp.len();
+
+        save_to.reserve(read_length);
+        save_to.append(&mut tmp);
+        Ok(read_length)
+    }
+}
+
 #[derive(Debug, PartialEq)]
 enum FileState {
     Open,
     Closed,
+}
+
+impl Display for FileState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            FileState::Open => write!(f, "OPEN"),
+            FileState::Closed => write!(f, "CLOSED"),
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -34,17 +65,11 @@ impl File {
         f.data = data.clone();
         f
     }
+}
 
-    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
-        if self.state != FileState::Open {
-            return Err(String::from("File must be open for reading"));
-        }
-        let mut tmp = self.data.clone();
-        let read_length = tmp.len();
-
-        save_to.reserve(read_length);
-        save_to.append(&mut tmp);
-        Ok(read_length)
+impl Display for File {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "<{} ({})>", self.name, self.state)
     }
 }
 
@@ -95,6 +120,7 @@ pub fn main() {
     let text = String::from_utf8_lossy(&buffer);
 
     println!("{:?}", f5);
+    println!("{}", f5); // This will use the impl of Display that we just wrote
     println!("{} is {} bytes long", &f5.name, f5_length);
     println!("{}", text);
 
