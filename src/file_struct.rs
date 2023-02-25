@@ -1,9 +1,10 @@
+//! Simulating files one step at a time
+
 #![allow(unused_variables)] // Crate level attributes
 #![allow(dead_code)]
 use std::fmt;
 use std::fmt::Display;
 
-// type File = String;
 use rand::prelude::*;
 
 fn one_in(denom: u32) -> bool {
@@ -15,22 +16,8 @@ trait Read {
     fn read(self: &Self, save_to: &mut Vec<u8>) -> Result<usize, String>;
 }
 
-impl Read for File {
-    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
-        if self.state != FileState::Open {
-            return Err(String::from("File must be open for reading"));
-        }
-        let mut tmp = self.data.clone();
-        let read_length = tmp.len();
-
-        save_to.reserve(read_length);
-        save_to.append(&mut tmp);
-        Ok(read_length)
-    }
-}
-
 #[derive(Debug, PartialEq)]
-enum FileState {
+pub enum FileState {
     Open,
     Closed,
 }
@@ -44,15 +31,18 @@ impl Display for FileState {
     }
 }
 
+/// Represents a "file",
+/// which probably lives on a file system
 #[derive(Debug)]
-struct File {
+pub struct File {
     name: String,
     data: Vec<u8>,
     state: FileState,
 }
 
 impl File {
-    fn new(name: &str) -> File {
+    /// New files are assumed to be empty, but a name is required
+    pub fn new(name: &str) -> File {
         File {
             name: String::from(name),
             data: Vec::new(),
@@ -60,10 +50,34 @@ impl File {
         }
     }
 
-    fn new_with_data(name: &str, data: &Vec<u8>) -> File {
+    pub fn new_with_data(name: &str, data: &Vec<u8>) -> File {
         let mut f = File::new(name);
         f.data = data.clone();
         f
+    }
+
+    /// Returns the file's length in bytes
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+
+    /// Returns the file's name
+    pub fn name(&self) -> String {
+        self.name.clone()
+    }
+}
+
+impl Read for File {
+    fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
+        if self.state != FileState::Open {
+            return Err(String::from("File must be open for reading"));
+        }
+        let mut tmp = self.data.clone();
+        let read_length = tmp.len();
+
+        save_to.reserve(read_length);
+        save_to.append(&mut tmp);
+        Ok(read_length)
     }
 }
 
