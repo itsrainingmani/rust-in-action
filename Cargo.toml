@@ -9,5 +9,6 @@ rand = "0.8.5"
 [workspace]
 members = [
   "mandelbrot",
-  "grep-lite"
+  "grep-lite",
+  "cubesat"
 ]
