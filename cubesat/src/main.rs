@@ -1,5 +1,7 @@
 #![allow(unused_variables)]
 
+use std::{cell::RefCell, rc::Rc};
+
 #[derive(Debug)]
 struct CubeSat {
     id: u64,
@@ -11,7 +13,10 @@ struct Mailbox {
     messages: Vec<Message>,
 }
 
-struct GroundStation;
+#[derive(Debug)]
+struct GroundStation {
+    radio_freq: f64, // Mhz
+}
 
 #[derive(Debug)]
 struct Message {
@@ -68,28 +73,48 @@ fn fetch_sat_ids() -> Vec<u64> {
 fn main() {
     println!("CubeSat");
 
-    let mut mail = Mailbox { messages: vec![] };
-    let base = GroundStation {};
+    // An object that has interior mutability presents an immutable facade while internal values are being modified
+    let base: Rc<RefCell<GroundStation>> =
+        Rc::new(RefCell::new(GroundStation { radio_freq: 87.65 }));
 
-    let sat_ids = fetch_sat_ids();
+    println!("base: {:?}", base);
 
-    for sat_id in sat_ids {
-        let mut sat = base.connect(sat_id);
-        let msg = Message {
-            to: sat_id,
-            content: String::from("Hello"),
-        };
-        base.send(&mut mail, msg);
-
-        // base.send(&mut sat, Message::from("hello."));
+    // A new scope where base can be mutably borrowed
+    {
+        let mut base_2 = base.borrow_mut();
+        base_2.radio_freq -= 12.34;
+        println!("base_2: {:?}", base_2);
     }
 
-    let sat_ids = fetch_sat_ids();
+    println!("base: {:?}", base);
 
-    for sat_id in sat_ids {
-        let sat = base.connect(sat_id);
-        let msg = sat.recv(&mut mail);
+    let mut base_3 = base.borrow_mut();
+    base_3.radio_freq += 43.21;
 
-        println!("{:?}: {:?}", sat, msg);
-    }
+    println!("base: {:?}", base); // value: <borrowed> indicates that base is mutably borrowed in this scope and is no longer generally accessible
+    println!("base_3: {:?}", base_3);
+
+    // let mut mail = Mailbox { messages: vec![] };
+
+    // let sat_ids = fetch_sat_ids();
+
+    // for sat_id in sat_ids {
+    //     let mut sat = base.connect(sat_id);
+    //     let msg = Message {
+    //         to: sat_id,
+    //         content: String::from("Hello"),
+    //     };
+    //     base.send(&mut mail, msg);
+
+    //     // base.send(&mut sat, Message::from("hello."));
+    // }
+
+    // let sat_ids = fetch_sat_ids();
+
+    // for sat_id in sat_ids {
+    //     let sat = base.connect(sat_id);
+    //     let msg = sat.recv(&mut mail);
+
+    //     println!("{:?}: {:?}", sat, msg);
+    // }
 }
