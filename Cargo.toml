@@ -10,5 +10,6 @@ rand = "0.8.5"
 members = [
   "mandelbrot",
   "grep-lite",
-  "cubesat"
+  "cubesat",
+  "bitpats"
 ]
