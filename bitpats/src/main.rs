@@ -1,3 +1,4 @@
+pub mod deconstruct;
 pub mod fpoint;
 
 fn main() {
@@ -38,6 +39,20 @@ fn main() {
     endianness();
 
     fpoint::main();
+
+    let n: f32 = 42.42;
+
+    let (sign, exp, frac) = deconstruct::to_parts(n);
+    let (sign_, exp_, mant) = deconstruct::decode(sign, exp, frac);
+    let n_ = deconstruct::from_parts(sign_, exp_, mant);
+
+    println!("{} -> {}", n, n_);
+    println!("field    |  as bits | as real number");
+    println!("sign     |        {:01b} | {}", sign, sign_);
+    println!("exponent | {:08b} | {}", exp, exp_);
+    println!("mantissa | {:023b} | {}", frac, mant);
+
+    // deconstruct::main();
 }
 
 fn endianness() {
