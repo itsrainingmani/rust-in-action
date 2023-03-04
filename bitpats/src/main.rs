@@ -1,3 +1,5 @@
+pub mod fpoint;
+
 fn main() {
     let a: u16 = 50115;
     let b: i16 = -15421;
@@ -6,21 +8,21 @@ fn main() {
     println!("a: {:016b} {}", a, a);
     println!("b: {:016b} {}", b, b);
 
-    let a: f32 = 42.42;
-    let frankentype: u32 = unsafe {
-        // Shreds type safety
-        std::mem::transmute(a)
-    };
+    // let a: f32 = 42.42;
+    // let frankentype: u32 = unsafe {
+    //     // Shreds type safety
+    //     std::mem::transmute(a)
+    // };
 
-    println!("{}", frankentype);
+    // println!("{}", frankentype);
 
     // Invokes the std::fmt::Binary trait
-    println!("{:032b}", frankentype); // left pad with 32 0s
+    // println!("{:032b}", frankentype); // left pad with 32 0s
 
-    let b: f32 = unsafe { std::mem::transmute(frankentype) };
+    // let b: f32 = unsafe { std::mem::transmute(frankentype) };
 
-    println!("{}", b);
-    assert_eq!(a, b);
+    // println!("{}", b);
+    // assert_eq!(a, b);
 
     // int_overflow();
     // u16_bit_patterns();
@@ -34,6 +36,8 @@ fn main() {
     // or
     // -1430532899 vs -573785174
     endianness();
+
+    fpoint::main();
 }
 
 fn endianness() {
