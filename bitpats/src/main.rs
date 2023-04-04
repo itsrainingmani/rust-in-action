@@ -1,6 +1,7 @@
 pub mod deconstruct;
 pub mod fpoint;
 pub mod q7;
+pub mod rand;
 
 fn main() {
     let a: u16 = 50115;
@@ -54,6 +55,8 @@ fn main() {
     println!("mantissa | {:023b} | {}", frac, mant);
 
     // deconstruct::main();
+
+    rand::main();
 }
 
 fn endianness() {
