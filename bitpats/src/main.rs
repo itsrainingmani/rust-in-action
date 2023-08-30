@@ -1,3 +1,4 @@
+pub mod cpu;
 pub mod deconstruct;
 pub mod fpoint;
 pub mod q7;
