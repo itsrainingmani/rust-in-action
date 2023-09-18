@@ -16,4 +16,5 @@ members = [
   "particles",
   "files",
   "fview",
+  "actionkv",
 ]
