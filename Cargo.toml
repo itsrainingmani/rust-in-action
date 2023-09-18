@@ -15,4 +15,5 @@ members = [
   "memory",
   "particles",
   "files",
+  "fview",
 ]
