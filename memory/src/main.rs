@@ -1,4 +1,5 @@
 pub mod decode;
+pub mod virtualmem;
 
 use std::mem::size_of;
 
@@ -43,5 +44,13 @@ fn main() {
     println!(" size: {:?} bytes", size_of::<[u8; 11]>());
     println!(" value: {:?}", C);
 
-    decode::main();
+    // decode::main();
+
+    // let z: i64 = 42;
+    // let z_ptr = &z as *const i64; // Rust's pointer types always point to the starting byte of T
+    // let z_addr: usize = unsafe { std::mem::transmute(z_ptr) };
+
+    // println!("z: {} ({:p}...0x{:x})", z, z_ptr, z_addr + 7);
+
+    virtualmem::main();
 }
