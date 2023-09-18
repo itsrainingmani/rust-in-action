@@ -7,9 +7,4 @@ edition = "2021"
 rand = "0.8.5"
 
 [workspace]
-members = [
-  "mandelbrot",
-  "grep-lite",
-  "cubesat",
-  "bitpats"
-]
+members = ["mandelbrot", "grep-lite", "cubesat", "bitpats", "memory"]
