@@ -1,0 +1,62 @@
+.
+├── bitpats
+│   └── src
+├── cubesat
+│   └── src
+├── files
+│   └── src
+├── fview
+│   └── src
+├── grep-lite
+│   └── src
+├── mandelbrot
+│   └── src
+├── memory
+│   └── src
+├── particles
+│   └── src
+├── src
+└── target
+    ├── debug
+    │   ├── build
+    │   ├── deps
+    │   ├── examples
+    │   └── incremental
+    └── doc
+        ├── aho_corasick
+        ├── bitflags
+        ├── cfg_if
+        ├── clap
+        ├── clap_derive
+        ├── clap_lex
+        ├── errno
+        ├── getrandom
+        ├── grep_lite
+        ├── heck
+        ├── implementors
+        ├── io_lifetimes
+        ├── is_terminal
+        ├── libc
+        ├── memchr
+        ├── once_cell
+        ├── os_str_bytes
+        ├── ppv_lite86
+        ├── proc_macro2
+        ├── proc_macro_error
+        ├── proc_macro_error_attr
+        ├── quote
+        ├── rand
+        ├── rand_chacha
+        ├── rand_core
+        ├── regex
+        ├── regex_syntax
+        ├── ria
+        ├── rustix
+        ├── src
+        ├── static.files
+        ├── strsim
+        ├── syn
+        ├── termcolor
+        └── unicode_ident
+
+60 directories
