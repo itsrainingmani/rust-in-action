@@ -1,4 +1,5 @@
 pub mod decode;
+pub mod scanmem;
 pub mod virtualmem;
 
 use std::mem::size_of;
@@ -53,4 +54,5 @@ fn main() {
     // println!("z: {} ({:p}...0x{:x})", z, z_ptr, z_addr + 7);
 
     virtualmem::main();
+    scanmem::main();
 }
