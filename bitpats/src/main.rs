@@ -58,6 +58,7 @@ fn main() {
     // deconstruct::main();
 
     rand::main();
+    cpu::main();
 }
 
 fn endianness() {
